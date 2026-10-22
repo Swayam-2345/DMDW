@@ -1,0 +1,97 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import accuracy_score, classification_report
+# Step 2: Load Dataset
+data = pd.read_csv("/content/Student_Performance.csv")
+# Display first 5 rows
+print("First Five Records")
+print(data.head())
+# Display dataset information
+print("\nDataset Information")
+print(data.info())
+# Step 3: Convert Categorical Columns into Numeric
+
+label = LabelEncoder()
+
+data["Extracurricular Activities"] = label.fit_transform(
+    data["Extracurricular Activities"]
+)
+# Step 4: Convert Performance Index into Categories
+
+def performance_category(score):
+    if score >= 80:
+        return "High"
+    elif score >= 60:
+        return "Medium"
+    else:
+        return "Low"
+
+data["Performance"] = data["Performance Index"].apply(performance_category)
+print(data["Performance"])
+# Convert target labels into numeric values
+data["Performance"] = label.fit_transform(data["Performance"])
+print(data["Performance"])
+# Step 5: Select Features and Target
+
+X = data.drop(["Performance Index", "Performance"], axis=1)
+y = data["Performance"]
+
+# Step 5: Select Features and Target
+
+X = data.drop(["Performance Index", "Performance"], axis=1)
+y = data["Performance"]
+
+# Step 6: Split Dataset
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.30,
+    random_state=42
+)
+
+# Step 7: Create Decision Tree Model
+
+model = DecisionTreeClassifier(
+    criterion="entropy",
+    max_depth=4,
+    random_state=42
+)
+
+# Step 8: Train Model
+
+model.fit(X_train, y_train)
+
+# Step 9: Prediction
+
+y_pred = model.predict(X_test)
+
+# Step 10: Accuracy
+
+accuracy = accuracy_score(y_test, y_pred)
+
+print("\nAccuracy :", accuracy)
+
+
+
+
+# Step 11: Display Decision Tree
+
+plt.figure(figsize=(18,10))
+
+plot_tree(
+    model,
+    feature_names=X.columns,
+    class_names=["High","Low","Medium"],
+    filled=True,
+    rounded=True,
+    fontsize=10
+)
+
+plt.title("Decision Tree - Student Study Performance")
+
+plt.show()
