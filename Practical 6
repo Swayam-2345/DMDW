@@ -1,0 +1,62 @@
+# Step 1: Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+# Step 2: Load dataset
+df = pd.read_csv("/content/social_media_usage.csv")
+# Step 3: Display dataset
+print("Social Media Usage Dataset:")
+print(df.head())
+# Step 4: Display dataset information
+print("\nDataset Information:")
+print(df.info())
+# Step 5: Display number of rows and columns
+print("\nDataset Shape:")
+print(df.shape)
+
+# Step 6: Check missing values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Step 7: Statistical analysis
+print("\nStatistical Analysis:")
+print(df.describe())
+
+# Step 8: Count users for each app
+print("\nNumber of Users by App:")
+print(df["App"].value_counts())
+
+# Step 9: Display users by app
+df["App"].value_counts().plot(kind="bar")
+
+plt.title("Social Media Users by App")
+plt.xlabel("Social Media App")
+plt.ylabel("Number of Users")
+plt.show()
+
+# Step 10: Average time spent
+print("\nAverage Daily Minutes Spent:")
+print(df["Daily_Minutes_Spent"].mean())
+
+# Step 11: Average posts
+print("\nAverage Posts Per Day:")
+print(df["Posts_Per_Day"].mean())
+
+# Step 12: Average likes
+print("\nAverage Likes Per Day:")
+print(df["Likes_Per_Day"].mean())
+
+# Step 13: Average follows
+print("\nAverage Follows Per Day:")
+print(df["Follows_Per_Day"].mean())
+
+# Step 14: Time spent vs likes
+plt.scatter(
+    df["Daily_Minutes_Spent"],
+    df["Likes_Per_Day"]
+)
+
+plt.title("Daily Time Spent vs Likes")
+plt.xlabel("Daily Minutes Spent")
+plt.ylabel("Likes Per Day")
+plt.show()
