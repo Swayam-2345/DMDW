@@ -1,0 +1,83 @@
+# -----------------------------------------
+# Text Mining using Python
+# -----------------------------------------
+
+# Step 1: Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+from collections import Counter
+import re
+
+
+# Step 2: Create text dataset
+data = {
+    "Comment": [
+        "I love this social media app",
+        "This app is very useful and easy",
+        "I love using social media every day",
+        "The app is fast and useful",
+        "Social media is fun and interesting",
+        "I like this app very much",
+        "This is a useful social media platform",
+        "The app is easy to use",
+        "I enjoy using this social media app",
+        "Social media is very interesting"
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Step 3: Display dataset
+print("Text Dataset:")
+print(df)
+
+# Step 4: Convert text to lowercase
+df["Clean_Text"] = df["Comment"].str.lower()
+
+# Step 5: Remove special characters
+df["Clean_Text"] = df["Clean_Text"].apply(
+    lambda x: re.sub(r'[^a-zA-Z\s]', '', x)
+)
+
+# Step 6: Stop words
+stop_words = {
+    "is", "this", "the", "a", "and",
+    "i", "to", "very", "using"
+}
+
+# Step 7: Tokenization and stop-word removal
+words = []
+
+for text in df["Clean_Text"]:
+    for word in text.split():
+        if word not in stop_words:
+            words.append(word)
+# Step 8: Count word frequency
+word_frequency = Counter(words)
+
+print("\nWord Frequency:")
+print(word_frequency)
+# Step 9: Display most common words
+print("\nMost Common Words:")
+print(word_frequency.most_common(10))
+
+# Step 10: Create graph
+common_words = word_frequency.most_common(10)
+
+words_list = [x[0] for x in common_words]
+frequency_list = [x[1] for x in common_words]
+
+plt.figure(figsize=(9,5))
+
+plt.bar(
+    words_list,
+    frequency_list,
+    color="skyblue"
+)
+
+plt.title("Most Common Words")
+plt.xlabel("Words")
+plt.ylabel("Frequency")
+plt.xticks(rotation=45)
+
+plt.show()
