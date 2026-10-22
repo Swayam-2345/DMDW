@@ -1,0 +1,108 @@
+# --------------------------------------------------
+# Basic Data Mining Model
+# Data Exploration using Python
+# College Level
+# --------------------------------------------------
+
+# Step 1: Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Step 2: Load dataset
+df = pd.read_csv("/content/Student_Performance_Dataset.csv")
+
+# Step 3: Display dataset
+print("----- Student Performance Dataset -----")
+print(df.head())
+
+# Step 4: Display number of rows and columns
+print("\n----- Dataset Shape -----")
+print(df.shape)
+
+# Step 5: Display column names
+print("\n----- Column Names -----")
+print(df.columns)
+
+# Step 6: Display data types and information
+print("\n----- Dataset Information -----")
+df.info()
+
+# Step 7: Check missing values
+print("\n----- Missing Values -----")
+print(df.isnull().sum())
+
+# Step 8: Check duplicate records
+print("\n----- Duplicate Records -----")
+print(df.duplicated().sum())
+
+# Step 9: Statistical analysis
+print("\n----- Statistical Summary -----")
+print(df.describe())
+
+# Step 10: Find average marks
+print("\n----- Average Final Marks -----")
+print(df["Final_Percentage"].mean())
+
+# Step 11: Find highest and lowest marks
+print("\n----- Highest Final Marks -----")
+print(df["Final_Percentage"].max())
+
+print("\n----- Lowest Final Marks -----")
+print(df["Final_Percentage"].min())
+
+# Step 12: Find average marks according to gender
+#print("\n----- Average Marks by Gender -----")
+#print(df.groupby("Gender")["Final_Marks"].mean())
+
+# Step 13: Find correlation between numerical columns
+print("\n----- Correlation Matrix -----")
+print(df.corr(numeric_only=True))
+
+# Step 14: Find students scoring above 80
+print("\n----- Students Scoring Above 80 -----")
+high_marks = df[df["Final_Percentage"] > 80]
+print(high_marks)
+
+# Step 15: Visualization - Study Hours vs Final Marks
+plt.figure(figsize=(8, 5))
+
+plt.scatter(
+    df["Study_Hours_Per_Day"],
+    df["Final_Percentage"]
+)
+
+plt.title("Study Hours vs Final Marks")
+plt.xlabel("Study Hours")
+plt.ylabel("Final Marks")
+
+plt.show()
+
+# Step 16: Visualization - Attendance vs Final Marks
+plt.figure(figsize=(8, 5))
+
+plt.scatter(
+    df["Attendance_Percentage"],
+    df["Final_Percentage"]
+)
+
+plt.title("Attendance vs Final Marks")
+plt.xlabel("Attendance (%)")
+plt.ylabel("Final Marks")
+
+plt.show()
+
+# Step 17: Visualization - Average Marks by Gender
+gender_marks = df.groupby("Gender")["Final_Percentage"].mean()
+
+plt.figure(figsize=(7, 5))
+
+plt.bar(
+    gender_marks.index,
+    gender_marks.values
+)
+
+plt.title("Average Final Marks by Gender")
+plt.xlabel("Gender")
+plt.ylabel("Average Marks")
+
+plt.show()
